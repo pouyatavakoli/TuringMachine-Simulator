@@ -11,3 +11,8 @@ def index():
 def initialize_machine():
     # TODO: implementation
     return jsonify({"status": "initialized"})
+
+@main_bp.route('/api/reset', method=['POST'])
+def reset_machine():
+    # TODO: implementation
+    return jsonify({"status": "reset"})
