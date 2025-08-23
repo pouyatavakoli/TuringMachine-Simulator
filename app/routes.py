@@ -12,7 +12,7 @@ def initialize_machine():
     # TODO: implementation
     return jsonify({"status": "initialized"})
 
-@main_bp.route('/api/reset', method=['POST'])
+@main_bp.route('/api/reset', methods=['POST'])
 def reset_machine():
     # TODO: implementation
     return jsonify({"status": "reset"})
