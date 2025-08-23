@@ -21,3 +21,8 @@ def reset_machine():
 def step_machine():
     # TODO: implementation
     return jsonify({"status": "stepped"})
+
+@main_bp.route('/api/run', methods=['POST'])
+def run_machine():
+    # TODO: implementation
+    return jsonify({"status": "ran"})

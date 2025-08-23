@@ -3,6 +3,8 @@ const TMSimulator = (() => {
         $('#initBtn').on('click', handleInit);
         $('#resetBtn').on('click', handleReset);
         $('#stepBtn').on('click', handleStep)
+        $('#runBtn').on('click', handleRunToggle);
+        $('#runFastBtn').on('click', handleFastRun);
     }
 
     function handleInit() {
@@ -15,6 +17,15 @@ const TMSimulator = (() => {
     }
     function handleStep(){
         console.log("reset button clicked");
+    }
+    function handleRunToggle() {
+    console.log("Run button clicked");
+    // TODO: for run logic
+    }
+
+    function handleFastRun() {
+    console.log("Fast run button clicked");
+    // TODO: for fast run logic
     }
 
     return { init };
