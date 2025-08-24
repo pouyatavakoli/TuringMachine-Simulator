@@ -8,10 +8,27 @@ const TMSimulator = (() => {
         loadMachines();
         $('#clearTape').on('click', () => $('#initialTape').val(''));
     }
+    let machineId = null;
 
     function handleInit() {
-        console.log("Initialize button clicked");
-        // TODO: initialization logic
+        //console.log("Initialize button clicked");
+        const initialTape = $('#initialTape').val();
+        const machineName = $('#machineSelect').val();
+
+        $.postJSON(
+            '/api/init',
+            { tape: initialTape, machine: machineName },
+            (response) => {
+                machineId = response.machine_id;
+                updateMachineState(response.state);
+                updateMachineInfo(response.machine_info);
+                
+                // Enable controls
+                toggleControls(true);
+                updateStatus('Machine initialized and ready');
+            },
+            (xhr) => updateStatus('Error initializing machine: ' + xhr.responseText)
+        );
     }
     function handleReset(){
         console.log("Reset btn clicked");
@@ -33,7 +50,23 @@ const TMSimulator = (() => {
     function loadMachines() {
     //TODO: loading machines
     console.log("Loading machines");
-}
+    }
+
+    function toggleControls(enabled) {
+    $('#stepBtn, #runBtn, #runFastBtn').prop('disabled', !enabled);
+    }
+    // AJAX helper
+    $.postJSON = function (url, data, success, error) {
+        $.ajax({
+            url: url,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success,
+            error: error || ((xhr) => console.error('Error:', xhr.responseText)),
+        });
+    };
+
 
     return { init };
 })();
