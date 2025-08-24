@@ -77,6 +77,23 @@ function updateMachineState(state) {
             $('<div>').addClass('text-center text-muted').text('Tape is empty')
         );
     }
+
+    // Update history
+    if (history && history.length > 0) {
+        history.forEach((step) => {
+            const tapeStr = step.tape ? step.tape.join(' ') : '';
+            const newRow = `
+                <tr class="history-step">
+                    <td>${step.step}</td>
+                    <td><span class="badge bg-primary">${step.state}</span></td>
+                    <td><span class="badge bg-secondary">${step.current_symbol}</span></td>
+                    <td><code>${tapeStr}</code></td>
+                    <td>${step.head}</td>
+                </tr>
+            `;
+            $('#historyTable').prepend(newRow);
+        });
+    }
 }
 
 function updateMachineInfo(info) {
