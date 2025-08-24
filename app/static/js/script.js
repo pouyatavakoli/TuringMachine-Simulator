@@ -54,4 +54,27 @@ function updateMachineState(state) {
             `<span class="badge bg-success">HALTED</span> Computation completed after ${state.steps} steps`
         );
     }
+    // Update tape display
+    const $tapeContainer = $('#tapeContainer').empty();
+    
+    if (state.tape && state.tape.length > 0) {
+        state.tape.forEach((symbol, index) => {
+            const position = (state.min_index || 0) + index;
+            const isHead = position === (state.head_position || 0);
+            
+            const $cell = $('<div>').addClass('tape-cell').text(symbol);
+            $cell.append($('<div>').addClass('cell-index').text(position));
+            
+            if (isHead) {
+                $cell.addClass('cell-head');
+                $cell.append($('<div>').addClass('head-indicator').text('HEAD'));
+            }
+            
+            $tapeContainer.append($cell);
+        });
+    } else {
+        $tapeContainer.append(
+            $('<div>').addClass('text-center text-muted').text('Tape is empty')
+        );
+    }
 }

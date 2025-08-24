@@ -7,3 +7,48 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.tape-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 100px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f8f9fa;
+}
+
+.tape-cell {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    border: 2px solid #6c757d;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    font-weight: bold;
+    position: relative;
+}
+
+.cell-head {
+    border-color: #0d6efd;
+    background-color: #e8f4ff;
+}
+
+.head-indicator {
+    position: absolute;
+    top: -20px;
+    font-size: 10px;
+    color: #0d6efd;
+    font-weight: normal;
+}
+
+.cell-index {
+    font-size: 10px;
+    color: #6c757d;
+    margin-top: 5px;
+}
