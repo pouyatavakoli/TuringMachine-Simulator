@@ -1,99 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Turing Machine Simulator</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <div class="row mb-4">
-        <div class="col-12 text-center">
-          <h1 class="display-4">
-            <i class="fas fa-cogs me-2"></i>Turing Machine Simulator
-          </h1>
-          <p class="lead">
-            Visualize and simulate Turing machine computations step by step
-          </p>
-        </div>
-      </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
 
-      <div class="row">
-        <!-- Control Panel -->
-        <div class="col-lg-4">
-          <div class="card">
-            <div class="card-header bg-primary text-white">
-              <h4><i class="fas fa-sliders-h me-5"></i>Control Panel</h4>
+<body>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="display-4">
+                    <i class="fas fa-cogs me-2"></i>Turing Machine Simulator
+                </h1>
+                <p class="lead">
+                    Visualize and simulate Turing machine computations step by step
+                </p>
             </div>
-            <div class="mb-3">
-                <label for="machineSelect" class="form-label">select Machine </label>
-                 <select class="form-select" id="machineSelect">
-                    <!-- sample values -->
-                    <option value="incrementer">Unary Incrementer</option>
-                    <option value="palindrome">Binary Palindrome Checker</option>
-                 </select>
-            </div>
-            <div class="mb-3">
-                <label for="initialTape" class="form-label">Initial Tape Content</label>
-                <div class="input-group">
-                     <span class="input-group-text"><i class="fas fa-tape"></i></span>
-                     <input
-                        type="text"
-                        class="form-control"
-                        id="initialTape"
-                        value="10"
-                        placeholder="Enter initial tape content"
-                    />
-                    <button class="btn btn-outline-secondary" type="button" id="clearTape">
-                        <i class="fas fa-eraser"></i>
-                    </button>
-                </div>
-                <div class="form-text">
-                    Use symbols from the machine's input alphabet
-                </div>
-                </div>
-            </div>
-            <div class="card-body">
-              <div class="d-grid gap-2 mb-3">
-                <button id="initBtn" class="btn btn-primary btn-lg">
-                  <i class="fas fa-play me-2"></i>Initialize Machine
-                </button>
-              </div>
-              <div class="d-grid gap-2 mb-3">
-                <button id="resetBtn" class="btn btn-warning">
-                    <i class="fas fa-redo me-2"> reset</i>
-                </button>
-              </div>
-              <div class="d-flex justify-content-center mb-3">
-                <button id="stepBtn" class="btn btn-sucess btn-action">
-                    <i class="fa fa-step-forward me-2">  step</i>
-                </button>
-                <button id="runBtn" class="btn btn-info btn-action">
-                    <i class="fas fa-play-circle me-2"></i>Run
-                </button>
-                <button id="runFastBtn" class="btn btn-dark btn-action">
-                    <i class="fas fa-fast-forward me-3"></i>Fast Run
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+
+        <div class="row">
+            <!-- Control Panel -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4><i class="fas fa-sliders-h me-5"></i>Control Panel</h4>
+                    </div>
+                    <div class="mb-3">
+                        <label for="machineSelect" class="form-label">select Machine </label>
+                        <select class="form-select" id="machineSelect">
+                            <!-- sample values -->
+                            <option value="incrementor">Unary Incrementor</option>
+                            <option value="palindrome">Binary Palindrome Checker</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="initialTape" class="form-label">Initial Tape Content</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-tape"></i></span>
+                            <input type="text" class="form-control" id="initialTape" value="10"
+                                placeholder="Enter initial tape content" />
+                            <button class="btn btn-outline-secondary" type="button" id="clearTape">
+                                <i class="fas fa-eraser"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">
+                            Use symbols from the machine's input alphabet
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2 mb-3">
+                        <button id="initBtn" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play me-2"></i>Initialize Machine
+                        </button>
+                    </div>
+                    <div class="d-grid gap-2 mb-3">
+                        <button id="resetBtn" class="btn btn-warning">
+                            <i class="fas fa-redo me-2"> reset</i>
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-center mb-3">
+                        <button id="stepBtn" class="btn btn-sucess btn-action">
+                            <i class="fa fa-step-forward me-2"> step</i>
+                        </button>
+                        <button id="runBtn" class="btn btn-info btn-action">
+                            <i class="fas fa-play-circle me-2"></i>Run
+                        </button>
+                        <button id="runFastBtn" class="btn btn-dark btn-action">
+                            <i class="fas fa-fast-forward me-3"></i>Fast Run
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  </body>
+</body>
+
 </html>
