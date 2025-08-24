@@ -6,6 +6,7 @@ const TMSimulator = (() => {
         $('#runBtn').on('click', handleRunToggle);
         $('#runFastBtn').on('click', handleFastRun);
         loadMachines();
+        $('#clearTape').on('click', () => $('#initialTape').val(''));
     }
 
     function handleInit() {
