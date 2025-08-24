@@ -5,6 +5,7 @@ const TMSimulator = (() => {
         $('#stepBtn').on('click', handleStep)
         $('#runBtn').on('click', handleRunToggle);
         $('#runFastBtn').on('click', handleFastRun);
+        loadMachines();
     }
 
     function handleInit() {
@@ -27,6 +28,11 @@ const TMSimulator = (() => {
     console.log("Fast run button clicked");
     // TODO: for fast run logic
     }
+
+    function loadMachines() {
+    //TODO: loading machines
+    console.log("Loading machines");
+}
 
     return { init };
 })();

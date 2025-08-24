@@ -26,3 +26,13 @@ def step_machine():
 def run_machine():
     # TODO: implementation
     return jsonify({"status": "ran"})
+
+@main_bp.route('/api/machines', methods=['GET'])
+def get_machines():
+    # sample machines
+    #TODO: implementation
+    machines = [
+        {"id": "incrementer", "name": "Unary Incrementer"},
+        {"id": "palindrome", "name": "Binary Palindrome Checker"},
+    ]
+    return jsonify(machines)
