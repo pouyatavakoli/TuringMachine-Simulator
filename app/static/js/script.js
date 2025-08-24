@@ -78,3 +78,25 @@ function updateMachineState(state) {
         );
     }
 }
+
+function updateMachineInfo(info) {
+    $('#statesInfo').text(info.states ? info.states.join(', ') : '-');
+    $('#inputAlphabet').text(info.input_alphabet ? info.input_alphabet.join(', ') : '-');
+    $('#tapeAlphabet').text(info.tape_alphabet ? info.tape_alphabet.join(', ') : '-');
+    $('#blankSymbol').text(info.blank || '-');
+    $('#initialState').text(info.initial_state || '-');
+    $('#finalStates').text(info.final_states ? info.final_states.join(', ') : '-');
+    
+    const $transitionsList = $('#transitionsList').empty();
+    if (!info.transitions || info.transitions.length === 0) {
+        $transitionsList.append(
+            $('<div>').addClass('text-center text-muted').text('No transitions defined')
+        );
+        return;
+    }
+    
+    info.transitions.forEach((t) => {
+        const text = `δ(${t.current_state}, ${t.current_symbol}) = (${t.next_state}, ${t.write_symbol}, ${t.move})`;
+        $transitionsList.append($('<div>').addClass('list-group-item transition-card').text(text));
+    });
+}
