@@ -38,13 +38,30 @@ const TMSimulator = (() => {
         console.log("reset button clicked");
     }
     function handleRunToggle() {
-    console.log("Run button clicked");
-    // TODO: for run logic
+        console.log("Run button clicked");
+        if (!machineId) return;
+        const $btn = $('#runBtn');
+        if ($btn.hasClass('btn-danger')) {
+            // Stop running
+            stopRun();
+            updateStatus('Computation paused');
+            return;
+        }
+
+        // Start running
+        $btn.html('<i class="fas fa-stop me-2"></i>Stop').removeClass('btn-info').addClass('btn-danger');
+        startRun();
+    
     }
 
     function handleFastRun() {
-    console.log("Fast run button clicked");
-    // TODO: for fast run logic
+        console.log("Fast run button clicked");
+        if (!machineId) return;
+        $.postJSON('/api/run', { machine_id: machineId }, (response) => {
+            updateMachineState(response.state, response.history);
+            updateStatus('Computation completed');
+            stopRun();
+        });
     }
 
     function loadMachines() {
@@ -149,4 +166,29 @@ function updateMachineInfo(info) {
         const text = `δ(${t.current_state}, ${t.current_symbol}) = (${t.next_state}, ${t.write_symbol}, ${t.move})`;
         $transitionsList.append($('<div>').addClass('list-group-item transition-card').text(text));
     });
+}
+
+function startRun() {
+    runInterval = setInterval(() => {
+        if (!machineId) {
+            stopRun();
+            return;
+        }
+
+        $.postJSON('/api/step', { machine_id: machineId }, (response) => {
+            updateMachineState(response.state, response.history);
+            updateLastOperation(response.operation);
+
+            if (response.state.halted) {
+                stopRun();
+                updateStatus('Computation halted');
+            }
+        });
+    }, simulationSpeed);
+}
+
+function stopRun() {
+    clearInterval(runInterval);
+    runInterval = null;
+    $('#runBtn').html('<i class="fas fa-play-circle me-2"></i>Run').removeClass('btn-danger').addClass('btn-info');
 }

@@ -9,7 +9,10 @@ def index():
 
 @main_bp.route('/api/init', methods=['POST'])
 def initialize_machine():
-    # TODO: implementation
+    data = request.get_json()
+    machine_id = data.get("machine")
+    tape = data.get("tape", "")
+    #TODO: complete this
     return jsonify({"status": "initialized"})
 
 @main_bp.route('/api/reset', methods=['POST'])
@@ -24,7 +27,9 @@ def step_machine():
 
 @main_bp.route('/api/run', methods=['POST'])
 def run_machine():
-    # TODO: implementation
+    data = request.get_json()
+    machine_id = data.get("machine_id")
+    # TODO: complete this 
     return jsonify({"status": "ran"})
 
 @main_bp.route('/api/machines', methods=['GET'])
