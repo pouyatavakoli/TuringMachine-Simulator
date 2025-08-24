@@ -39,3 +39,19 @@ const TMSimulator = (() => {
 })();
 
 $(document).ready(TMSimulator.init);
+
+
+function updateStatus(message) {
+    $('#statusInfo').text(message);
+}
+
+function updateMachineState(state) {
+    $('#currentState').text(state.current_state || '-');
+    $('#stepCount').text(state.steps || 0);
+    
+    if (state.halted) {
+        $('#statusInfo').html(
+            `<span class="badge bg-success">HALTED</span> Computation completed after ${state.steps} steps`
+        );
+    }
+}
