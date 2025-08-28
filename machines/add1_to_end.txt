@@ -1,0 +1,10 @@
+states: q0,q1,halt
+input_alphabet: 1
+tape_alphabet: 1,□
+blank: □
+initial_state: q0
+final_states: halt
+transitions:
+q0,1 -> q0,1,R
+q0,□ -> q1,1,R
+q1,□ -> halt,□,R

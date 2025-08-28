@@ -65,9 +65,13 @@ const TMSimulator = (() => {
     }
 
     function loadMachines() {
-    //TODO: loading machines
-    console.log("Loading machines");
-    }
+    $.get('/api/machines', (machines) => {
+        const $select = $('#machineSelect').empty();
+        machines.forEach((m) => {
+            $select.append(`<option value="${m.id}">${m.name}</option>`);
+        });
+    });
+}
 
     function toggleControls(enabled) {
     $('#stepBtn, #runBtn, #runFastBtn').prop('disabled', !enabled);
