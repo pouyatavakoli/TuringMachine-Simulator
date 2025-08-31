@@ -122,18 +122,7 @@ TuringMachine-Simulator/
 │       ├── index.html           # Main simulator interface
 │       └── create.html          # Machine creation interface
 ├── machines/                    
-│   ├── add1_to_end.txt          # Example machines
-│   ├── binary_incrementer.txt
-│   ├── erase_tape.txt
-│   ├── even_odd_checker.txt
-│   └── only_ones.txt
-├── readme_assets/               # README images
-│   ├── add_transition.png
-│   ├── create_actions.png
-│   ├── create.png
-│   ├── erase_tape.gif
-│   ├── erase_tape_history.png
-│   └── init.png
+│   └──  example.txt              # Example machines
 ├── run.py                       # Entry point
 ├── requirements.txt             # Dependencies
 ├── LICENSE                      # License file
@@ -245,6 +234,7 @@ Licensed under the **MIT License**. See [LICENSE](LICENSE).
 ##  Acknowledgments
 
 * Inspired by **Alan Turing’s** pioneering work
+* Examples and exercises adapted from *Peter Linz – Formal Languages and Automata Theory (6th Edition)*  
 * Built with [Flask](https://flask.palletsprojects.com/)
 * Icons via [Font Awesome](https://fontawesome.com/)
 
