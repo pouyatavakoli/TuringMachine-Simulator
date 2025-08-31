@@ -45,9 +45,22 @@
                 <label for="machineSelect" class="form-label"
                   >Select Machine</label
                 >
-                <select class="form-select" id="machineSelect">
-                  <option value="" selected disabled>Select a machine</option>
-                </select>
+                <div class="input-group">
+                  <select class="form-select" id="machineSelect">
+                    <option value="" selected disabled>Select a machine</option>
+                  </select>
+                  <a
+                    href="/create"
+                    class="btn btn-success"
+                    id="createMachineBtn"
+                    title="Create New Machine"
+                  >
+                    <i class="fas fa-plus"></i>
+                  </a>
+                </div>
+                <div class="form-text">
+                  Choose a machine or create a new one
+                </div>
               </div>
 
               <!-- Tape Input -->

@@ -33,3 +33,18 @@
     margin-bottom: 10px;
   }
 }
+
+#createMachineBtn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 45px; /* Fixed width for consistency */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure the select element looks good next to the button */
+#machineSelect {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
