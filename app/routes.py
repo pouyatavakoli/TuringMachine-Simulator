@@ -108,7 +108,25 @@ def step_machine():
 
 @main_bp.route('/api/run', methods=['POST'])
 def run_machine():
-    data = request.get_json()
+    data = request.get_json(force=True)
     machine_id = data.get("machine_id")
-    # TODO: complete this 
-    return jsonify({"status": "ran"})
+    max_steps = data.get("max_steps", 1000)
+
+    if machine_id not in machines:
+        return jsonify({"error": "Machine not initialized"}), 400
+
+    machine = machines[machine_id]
+    machine.run(max_steps=int(max_steps))
+
+    return jsonify({
+        "status": "ran",
+        "halted": machine.state.halted,
+        "state": {
+            "current_state": machine.state.current_state,
+            "steps": machine.state.steps,
+            "halted": machine.state.halted,
+            "head_position": machine.state.head_position,
+            "tape": machine.get_tape_snapshot()
+        }
+    })
+
