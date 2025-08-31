@@ -216,4 +216,6 @@ def test_get_tape_snapshot(simple_machine_definition):
     tm.state.head_position = 3  # Move head beyond
     
     snapshot = tm.get_tape_snapshot()
-    assert snapshot == ['0', '1', '_', '_']  # Includes blanks up to head
+    assert snapshot['tape'] == ['0', '1', '_', '_']  # Includes blanks up to head
+    assert snapshot['min_index'] == 0
+    assert snapshot['max_index'] == 3
