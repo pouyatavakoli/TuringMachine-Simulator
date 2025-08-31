@@ -14,6 +14,20 @@ Machine Initialization
 ![Erase Tape Machine Initialization img](https://github.com/pouyatavakoli/TuringMachine-Simulator/blob/master/readme%20assets/erase%20tape%20machine%20init.png)
 Computation History
 ![Computation History img](https://github.com/pouyatavakoli/TuringMachine-Simulator/blob/master/readme%20assets/erase%20tape%20history.png)
+create machine
+![create](https://github.com/pouyatavakoli/TuringMachine-Simulator/blob/master/readme%20assets/create.png)
+
+<div align="center">
+  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    <img src="https://github.com/pouyatavakoli/TuringMachine-Simulator/raw/master/readme%20assets/add%20transition.png" alt="Add Transition Interface" width="400"/>
+    <img src="https://github.com/pouyatavakoli/TuringMachine-Simulator/raw/master/readme%20assets/create%20actions.png" alt="Preview and Actions" width="400"/>
+  </div>
+  <div style="display: flex; justify-content: center; gap: 130px; flex-wrap: wrap; margin-top: 10px;">
+    <span><strong>Add Transition Interface</strong></span>
+    <span><strong>Preview and Actions Panel</strong></span>
+  </div>
+</div>
+
 demo video
 ![Computation History vid](https://github.com/pouyatavakoli/TuringMachine-Simulator/blob/master/readme%20assets/erase%20tape.gif)
 
