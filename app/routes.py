@@ -84,8 +84,27 @@ def reset_machine():
 
 @main_bp.route('/api/step', methods=['POST'])
 def step_machine():
-    # TODO: implementation
-    return jsonify({"status": "stepped"})
+    data = request.get_json(force=True)
+    machine_id = data.get("machine_id")
+
+    if machine_id not in machines:
+        return jsonify({"error": "Machine not initialized"}), 400
+
+    machine = machines[machine_id]
+    alive = machine.step()  # returns False if halted
+
+    return jsonify({
+        "status": "stepped",
+        "alive": alive,
+        "state": {
+            "current_state": machine.state.current_state,
+            "steps": machine.state.steps,
+            "halted": machine.state.halted,
+            "head_position": machine.state.head_position,
+            "tape": machine.get_tape_snapshot()
+        }
+    })
+
 
 @main_bp.route('/api/run', methods=['POST'])
 def run_machine():
