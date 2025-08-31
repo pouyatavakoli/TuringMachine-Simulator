@@ -71,6 +71,11 @@ def error_response(message: str, code: int = 400):
 def index():
     return render_template('index.html')
 
+@main_bp.route('/create', methods=['GET'])
+def create_machine_page():
+    """Render the machine creation page."""
+    return render_template('create.html')
+
 # api endpoint routes:
 
 @main_bp.route('/api/machines', methods=['GET'])

@@ -1,0 +1,278 @@
+{% extends "base.html" %} {% block title %}Create Turing Machine - Turing
+Machine Simulator{% endblock %} {% block extra_css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/create.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="container my-4">
+  <!-- Alert Area -->
+  <div class="alert-area"></div>
+
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h1 class="display-4 fw-bold">
+      <i class="fas fa-plus-circle me-2"></i>Create Turing Machine
+    </h1>
+    <p class="lead text-muted">
+      Design and export your own Turing machine definitions
+    </p>
+    <a href="{{ url_for('routes.index') }}" class="btn btn-outline-primary">
+      <i class="fas fa-arrow-left me-2"></i>Back to Simulator
+    </a>
+  </div>
+
+  <div class="row g-4">
+    <!-- Machine Definition Form -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-sliders-h me-2"></i>Machine Definition
+          </h5>
+        </div>
+        <div class="card-body">
+          <!-- Machine Name -->
+          <div class="mb-3">
+            <label for="machineName" class="form-label">Machine Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="machineName"
+              placeholder="Enter machine name"
+            />
+          </div>
+
+          <!-- States -->
+          <div class="mb-3">
+            <label for="machineStates" class="form-label"
+              >States (comma-separated)</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="machineStates"
+              placeholder="e.g., q0, q1, halt"
+            />
+          </div>
+
+          <!-- Input Alphabet -->
+          <div class="mb-3">
+            <label for="inputAlphabet" class="form-label"
+              >Input Alphabet (comma-separated)</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="inputAlphabet"
+              placeholder="e.g., 0, 1"
+            />
+          </div>
+
+          <!-- Tape Alphabet -->
+          <div class="mb-3">
+            <label for="tapeAlphabet" class="form-label"
+              >Tape Alphabet (comma-separated)</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="tapeAlphabet"
+              placeholder="e.g., 0, 1, □"
+            />
+          </div>
+
+          <!-- Blank Symbol -->
+          <div class="mb-3">
+            <label for="blankSymbol" class="form-label">Blank Symbol</label>
+            <input
+              type="text"
+              class="form-control"
+              id="blankSymbol"
+              placeholder="e.g., □"
+              value="□"
+              maxlength="1"
+            />
+          </div>
+
+          <!-- Initial State -->
+          <div class="mb-3">
+            <label for="initialState" class="form-label">Initial State</label>
+            <input
+              type="text"
+              class="form-control"
+              id="initialState"
+              placeholder="e.g., q0"
+            />
+          </div>
+
+          <!-- Final States -->
+          <div class="mb-3">
+            <label for="finalStates" class="form-label"
+              >Final States (comma-separated)</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="finalStates"
+              placeholder="e.g., halt, accept, reject"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Transitions -->
+      <div class="card shadow-sm mt-4">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-exchange-alt me-2"></i>Transitions
+          </h5>
+        </div>
+        <div class="card-body">
+          <div id="transitionsContainer">
+            <!-- Transitions will be added here dynamically -->
+            <div class="text-center text-muted mb-3" id="noTransitionsMessage">
+              No transitions added yet
+            </div>
+          </div>
+
+          <div class="d-grid">
+            <button id="addTransitionBtn" class="btn btn-outline-success">
+              <i class="fas fa-plus me-2"></i>Add Transition
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview & Actions -->
+    <div class="col-lg-6">
+      <!-- Preview -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Preview</h5>
+        </div>
+        <div class="card-body">
+          <div class="preview-panel" id="previewPanel">
+            # Machine definition will appear here
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card shadow-sm mt-4">
+        <div class="card-header bg-warning text-dark">
+          <h5 class="mb-0"><i class="fas fa-cog me-2"></i>Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <button id="previewBtn" class="btn btn-info">
+              <i class="fas fa-refresh me-2"></i>Update Preview
+            </button>
+            <button id="createBtn" class="btn btn-success">
+              <i class="fas fa-save me-2"></i>Create Machine
+            </button>
+            <button id="resetBtn" class="btn btn-danger">
+              <i class="fas fa-trash me-2"></i>Reset Form
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="card shadow-sm mt-4">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-info-circle me-2"></i>Instructions
+          </h5>
+        </div>
+        <div class="card-body">
+          <ol class="list-group list-group-numbered">
+            <li class="list-group-item">
+              Fill in all machine definition fields
+            </li>
+            <li class="list-group-item">
+              Add transitions using the "Add Transition" button
+            </li>
+            <li class="list-group-item">
+              Review the preview to ensure correctness
+            </li>
+            <li class="list-group-item">
+              Click "Create Machine" to save your machine
+            </li>
+            <li class="list-group-item">
+              Your machine will be available in the simulator
+            </li>
+          </ol>
+          <div class="mt-3">
+            <strong>Transition Format:</strong>
+            <p class="mb-1">
+              current_state,read_symbol → next_state,write_symbol,direction
+            </p>
+            <small class="text-muted"
+              >Direction can be L (left), R (right), or S (stay)</small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Transition Template (Hidden) -->
+<template id="transitionTemplate">
+  <div class="transition-row">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <label class="form-label">Current State</label>
+        <input
+          type="text"
+          class="form-control transition-current-state"
+          placeholder="q0"
+        />
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Read</label>
+        <input
+          type="text"
+          class="form-control transition-read"
+          placeholder="0"
+          maxlength="1"
+        />
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Next State</label>
+        <input
+          type="text"
+          class="form-control transition-next-state"
+          placeholder="q1"
+        />
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Write</label>
+        <input
+          type="text"
+          class="form-control transition-write"
+          placeholder="1"
+          maxlength="1"
+        />
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Move</label>
+        <select class="form-select transition-move">
+          <option value="L">L</option>
+          <option value="R" selected>R</option>
+          <option value="S">S</option>
+        </select>
+      </div>
+    </div>
+    <div class="d-grid mt-2">
+      <button class="btn btn-sm btn-outline-danger remove-transition">
+        <i class="fas fa-trash me-1"></i>Remove
+      </button>
+    </div>
+  </div>
+</template>
+{% endblock %} {% block extra_js %}
+<script src="{{ url_for('static', filename='js/create.js') }}"></script>
+{% endblock %}
