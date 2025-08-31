@@ -2,6 +2,8 @@ import os
 import logging
 from typing import Dict, List
 from flask import Blueprint, render_template, jsonify, request
+import re
+from werkzeug.utils import secure_filename
 
 from .models import TuringMachine, MachineDefinition
 from .utils import parse_machine_file, create_machine_from_dict
@@ -186,4 +188,65 @@ def run_machine():
         return error_response("max_steps must be an integer")
     except Exception as e:
         logging.exception("Failed to run machine")
+        return error_response(str(e))
+    
+@main_bp.route('/api/machines/create', methods=['POST'])
+def create_machine():
+    """Create a new machine definition from form data."""
+    try:
+        data = request.get_json(force=True)
+        
+        # Validate required fields
+        required_fields = ['name', 'states', 'input_alphabet', 'tape_alphabet', 
+                          'blank', 'initial_state', 'final_states']
+        for field in required_fields:
+            if field not in data or not data[field]:
+                return error_response(f"Missing required field: {field}")
+        
+        # Validate transitions
+        if 'transitions' not in data or not data['transitions']:
+            return error_response("At least one transition is required")
+        
+        # Create machine definition string
+        machine_name = data['name']
+        states = data['states']
+        input_alphabet = data['input_alphabet']
+        tape_alphabet = data['tape_alphabet']
+        blank = data['blank']
+        initial_state = data['initial_state']
+        final_states = data['final_states']
+        transitions = data['transitions']
+        
+        # Format the machine definition
+        definition = f"# Turing Machine: {machine_name}\n"
+        definition += f"states: {states}\n"
+        definition += f"input_alphabet: {input_alphabet}\n"
+        definition += f"tape_alphabet: {tape_alphabet}\n"
+        definition += f"blank: {blank}\n"
+        definition += f"initial_state: {initial_state}\n"
+        definition += f"final_states: {final_states}\n"
+        definition += "transitions:\n"
+        
+        for transition in transitions:
+            definition += f"{transition['current_state']},{transition['read_symbol']} -> {transition['next_state']},{transition['write_symbol']},{transition['move']}\n"
+        
+        # Save to file
+        filename = secure_filename(machine_name.replace(" ", "_")) + ".txt"
+        filepath = os.path.join(MACHINES_DIR, filename)
+        
+        # Check if file already exists
+        if os.path.exists(filepath):
+            return error_response("A machine with this name already exists")
+        
+        with open(filepath, 'w') as f:
+            f.write(definition)
+        
+        return jsonify({
+            "status": "created",
+            "message": f"Machine '{machine_name}' created successfully",
+            "filename": filename
+        })
+        
+    except Exception as e:
+        logging.exception("Failed to create machine")
         return error_response(str(e))
