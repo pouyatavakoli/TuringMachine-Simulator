@@ -9,6 +9,16 @@ An **interactive web-based Turing Machine simulator** built with Flask that lets
 
 ---
 
+## 📸 Screenshots and Demo
+Machine Initialization
+![Erase Tape Machine Initialization img](https://github.com/pouyatavakoli/TuringMachine-Simulator/blob/master/readme%20assets/erase%20tape%20machine%20init.png)
+Computation History
+![Computation History img](https://github.com/pouyatavakoli/TuringMachine-Simulator/blob/master/readme%20assets/erase%20tape%20history.png)
+demo video
+![Computation History vid](https://github.com/pouyatavakoli/TuringMachine-Simulator/blob/master/readme%20assets/erase%20tape.gif)
+
+---
+
 ## 📋 Table of Contents
 
 * [✨ Features](#-features)
