@@ -126,7 +126,8 @@ def step_machine():
         return jsonify({
             "status": "stepped",
             "alive": alive,
-            "state": serialize_machine_state(machine)
+            "state": serialize_machine_state(machine),
+            "history": machine.history  # include full history
         })
 
     except Exception as e:
@@ -147,7 +148,8 @@ def run_machine():
         return jsonify({
             "status": "ran",
             "halted": machine.state.halted,
-            "state": serialize_machine_state(machine)
+            "state": serialize_machine_state(machine),
+            "history": machine.history  # include full history
         })
 
     except ValueError:

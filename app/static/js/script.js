@@ -55,7 +55,7 @@ const TMSimulator = (() => {
       "/api/step",
       { machine_id: machineId },
       (response) => {
-        updateMachineState(response.state);
+        updateMachineState(response.state, response.history);
         if (response.state.halted) updateStatus("Computation halted");
       },
       (xhr) => updateStatus("Error stepping machine: " + xhr.responseText)
@@ -85,7 +85,7 @@ const TMSimulator = (() => {
       "/api/run",
       { machine_id: machineId, max_steps: 1000 },
       (response) => {
-        updateMachineState(response.state);
+        updateMachineState(response.state, response.history);
         updateStatus(
           response.state.halted
             ? "Computation completed"
@@ -119,7 +119,7 @@ const TMSimulator = (() => {
         "/api/step",
         { machine_id: machineId },
         (response) => {
-          updateMachineState(response.state);
+          updateMachineState(response.state, response.history);
           if (response.state.halted) {
             stopRun();
             updateStatus("Computation halted");
@@ -166,10 +166,12 @@ function updateStatus(message) {
   $("#statusInfo").text(message);
 }
 
-function updateMachineState(state) {
+function updateMachineState(state, history = []) {
+  // === Update current state and step count ===
   $("#currentState").text(state.current_state || "-");
   $("#stepCount").text(state.steps || 0);
 
+  // === Update tape visualization ===
   const $tapeContainer = $("#tapeContainer").empty();
   if (state.tape && state.tape.length > 0) {
     state.tape.forEach((symbol, index) => {
@@ -194,9 +196,7 @@ function updateMachineState(state) {
       const containerWidth = $tapeContainer.width();
       const headOffset = $headCell.position().left + $headCell.outerWidth() / 2;
       $tapeContainer.animate(
-        {
-          scrollLeft: headOffset - containerWidth / 2,
-        },
+        { scrollLeft: headOffset - containerWidth / 2 },
         200
       );
     }
@@ -206,10 +206,29 @@ function updateMachineState(state) {
     );
   }
 
+  // === Update computation status ===
   if (state.halted) {
     $("#statusInfo").html(
       `<span class="badge bg-success">HALTED</span> Computation completed after ${state.steps} steps`
     );
+  }
+
+  // === Update history table ===
+  if (history && history.length > 0) {
+    const $tbody = $("#historyTable").empty();
+    history.forEach((step) => {
+      const tapeStr = step.tape ? step.tape.join(" ") : "";
+      const row = `
+        <tr>
+          <td>${step.step}</td>
+          <td>${step.current_state}</td>
+          <td>${step.current_symbol}</td>
+          <td>${tapeStr}</td>
+          <td>${step.head_position}</td>
+        </tr>
+      `;
+      $tbody.append(row);
+    });
   }
 }
 

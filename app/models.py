@@ -70,26 +70,35 @@ class TuringMachine:
                 raise ValueError(f"Write symbol '{transition.write_symbol}' not in tape alphabet")
     
     def reset(self, initial_tape: Optional[List[str]] = None):
-        """Reset the machine with optional initial tape"""
+        """Reset the machine with optional initial tape and clear history"""
         if initial_tape is None:
             initial_tape = []
-        
-        # Clear and initialize tape
         self.tape.clear()
         for index, symbol in enumerate(initial_tape):
             if symbol not in self.definition.tape_alphabet:
                 raise ValueError(f"Initial tape symbol '{symbol}' not in tape alphabet")
             self.tape[index] = symbol
-        
-        # Initialize machine state
+
         self.state = MachineState(
             head_position=0,
             current_state=self.definition.initial_state,
             halted=False,
             steps=0
         )
-        
         self.history.clear()
+
+        # Record initial snapshot
+        self.record_history()
+
+    def record_history(self):
+        """Append current machine state to history"""
+        self.history.append({
+            "step": self.state.steps,
+            "current_state": self.state.current_state,
+            "current_symbol": self.read_from_tape(),
+            "head_position": self.state.head_position,
+            "tape": self.get_tape_snapshot()
+        })
     
     def read_from_tape(self) -> str:
         """Read symbol at current head position"""
@@ -121,44 +130,34 @@ class TuringMachine:
         return None
     
     def step(self) -> bool:
-        """Execute one step of computation"""
+        """Execute one step and record history"""
         if self.state.halted:
             return False
         
-        # Record state before transition
-        self.history.append({
-            'step': self.state.steps,
-            'state': self.state.current_state,
-            'head_position': self.state.head_position,
-            'tape_snapshot': self.get_tape_snapshot(),
-            'current_symbol': self.read_from_tape()
-        })
-        
-        # Find applicable transition
+        # Record snapshot before transition
+        self.record_history()
+
         transition = self.find_transition()
-        
         if transition is None:
             self.state.halted = True
             return False
-        
+
         # Apply transition
         self.write_to_tape(transition.write_symbol)
         self.move_head(transition.move)
         self.state.current_state = transition.next_state
         self.state.steps += 1
-        
+
         # Check if reached final state
         if self.state.current_state in self.definition.final_states:
             self.state.halted = True
-        
-        #returns false it halted in returns true if not
+
         return True
-    
+
     def run(self, max_steps: int = 1000) -> bool:
         """Run machine until halt or max steps reached"""
         while not self.state.halted and self.state.steps < max_steps:
             if not self.step():
-                #break the loop is machine is halted
                 break
         return self.state.halted
     
