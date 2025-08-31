@@ -103,24 +103,37 @@ demo video
 ---
 
 ## 📁 Project Structure
-
 ```
 TuringMachine-Simulator/
 ├── app/                          
 │   ├── __init__.py              # Flask app factory
 │   ├── models.py                # Turing machine models & logic
-│   ├── routes.py                # API endpoints & routes
+│   ├── routes.py                # API endpoints & routes (updated with create routes)
 │   ├── utils.py                 # Parsing & helpers
 │   ├── static/                  
-│   │   ├── css/style.css        # Styles & animations
-│   │   └── js/script.js         # Frontend interactivity
-│   └── templates/index.html     # Web interface
+│   │   ├── css/
+│   │   │   ├── style.css        # Main styles & animations
+│   │   │   └── create.css       # Creator-specific styles
+│   │   └── js/
+│   │       ├── script.js        # Main frontend interactivity
+│   │       └── create.js        # Creator functionality
+│   └── templates/
+│       ├── base.html            # Base template
+│       ├── index.html           # Main simulator interface
+│       └── create.html          # Machine creation interface
 ├── machines/                    
-│   └── example.txt              # Example machine
-├── tests/                       
-│   ├── conftest.py              # Pytest config
-│   ├── test_app_basic.py        # App-level tests
-│   └── test_models.py           # Model tests
+│   ├── add1_to_end.txt          # Example machines
+│   ├── binary_incrementer.txt
+│   ├── erase_tape.txt
+│   ├── even_odd_checker.txt
+│   └── only_ones.txt
+├── readme_assets/               # README images
+│   ├── add_transition.png
+│   ├── create_actions.png
+│   ├── create.png
+│   ├── erase_tape.gif
+│   ├── erase_tape_history.png
+│   └── init.png
 ├── run.py                       # Entry point
 ├── requirements.txt             # Dependencies
 ├── LICENSE                      # License file
