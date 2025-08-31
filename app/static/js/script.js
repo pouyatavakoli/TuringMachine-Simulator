@@ -134,8 +134,8 @@ const TMSimulator = (() => {
   }
 
   function toggleControls(enabled) {
-    $("#stepBtn, #runBtn, #runFastBtn").prop("disabled", !enabled);
-  }
+    $('#stepBtn, #runBtn, #runFastBtn, #resetBtn').prop('disabled', !enabled);
+}
   // AJAX helper
   $.postJSON = function (url, data, success, error) {
     $.ajax({
