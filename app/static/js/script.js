@@ -30,10 +30,19 @@ const TMSimulator = (() => {
             (xhr) => updateStatus('Error initializing machine: ' + xhr.responseText)
         );
     }
-    function handleReset(){
-        console.log("Reset btn clicked");
-        // TODO: reset logic
+    function handleReset() {
+    if (!machineId) return;
+    const tapeStr = $('#initialTape').val();
+
+    $.postJSON('/api/reset', { machine_id: machineId, tape: tapeStr },
+        (response) => {
+            updateMachineState(response.state);
+            updateStatus('Machine reset');
+        },
+        (xhr) => updateStatus('Error resetting machine: ' + xhr.responseText)
+    );
     }
+
     function handleStep(){
         console.log("reset button clicked");
     }
