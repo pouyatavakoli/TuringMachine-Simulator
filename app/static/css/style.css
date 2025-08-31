@@ -20,6 +20,20 @@ body {
     border-radius: 0.5rem;
     gap: 8px;
 }
+.tape-container {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.tape-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.tape-container::-webkit-scrollbar-thumb {
+    background-color: rgba(108, 117, 125, 0.5);
+    border-radius: 4px;
+}
+
 
 .tape-cell {
     width: 60px;

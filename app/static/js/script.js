@@ -171,18 +171,35 @@ function updateMachineState(state) {
   $("#stepCount").text(state.steps || 0);
 
   const $tapeContainer = $("#tapeContainer").empty();
-  if (state.tape?.length) {
+  if (state.tape && state.tape.length > 0) {
     state.tape.forEach((symbol, index) => {
       const position = (state.min_index || 0) + index;
       const isHead = position === (state.head_position || 0);
-      const $cell = $("<div>").addClass("tape-cell").text(symbol);
+
+      const $cell = $("<div>")
+        .addClass("tape-cell")
+        .toggleClass("cell-head", isHead)
+        .text(symbol);
+
       $cell.append($("<div>").addClass("cell-index").text(position));
       if (isHead)
-        $cell
-          .addClass("cell-head")
-          .append($("<div>").addClass("head-indicator").text("HEAD"));
+        $cell.append($("<div>").addClass("head-indicator").text("HEAD"));
+
       $tapeContainer.append($cell);
     });
+
+    // Auto-scroll so head is centered
+    const $headCell = $tapeContainer.find(".cell-head");
+    if ($headCell.length) {
+      const containerWidth = $tapeContainer.width();
+      const headOffset = $headCell.position().left + $headCell.outerWidth() / 2;
+      $tapeContainer.animate(
+        {
+          scrollLeft: headOffset - containerWidth / 2,
+        },
+        200
+      );
+    }
   } else {
     $tapeContainer.append(
       $("<div>").addClass("text-center text-muted").text("Tape is empty")
