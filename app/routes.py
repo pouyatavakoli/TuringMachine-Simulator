@@ -3,7 +3,7 @@ import logging
 from typing import Dict, List
 from flask import Blueprint, render_template, jsonify, request
 
-from .models import TuringMachine
+from .models import TuringMachine, MachineDefinition
 from .utils import parse_machine_file, create_machine_from_dict
 
 # ------------------------
@@ -28,6 +28,27 @@ def serialize_machine_state(machine: TuringMachine) -> dict:
         "halted": machine.state.halted,
         "head_position": machine.state.head_position,
         "tape": machine.get_tape_snapshot(),
+    }
+
+def serialize_machine_info(definition: MachineDefinition) -> dict:
+    """Return JSON-serializable machine definition with consistent field names."""
+    return {
+        "states": list(definition.states),
+        "input_alphabet": list(definition.input_alphabet),
+        "tape_alphabet": list(definition.tape_alphabet),
+        "blank": definition.blank,
+        "initial_state": definition.initial_state,
+        "final_states": list(definition.final_states),
+        "transitions": [
+            {
+                "current_state": t.current_state,
+                "read_symbol": t.read_symbol,  # Consistent field name
+                "next_state": t.next_state,
+                "write_symbol": t.write_symbol,
+                "move": t.move.value
+            }
+            for t in definition.transitions
+        ]
     }
 
 def get_machine(machine_id: str) -> TuringMachine:
@@ -81,17 +102,19 @@ def initialize_machine():
         machine.reset(list(tape_str))
         machines[machine_id] = machine
 
+        # Create a properly serialized machine info response
+        machine_info = serialize_machine_info(machine.definition)
+
         return jsonify({
             "status": "initialized",
             "machine_id": machine_id,
             "state": serialize_machine_state(machine),
-            "machine_info": definition
+            "machine_info": machine_info  # Use serialized info instead of raw definition
         })
 
     except Exception as e:
         logging.exception("Failed to initialize machine")
         return error_response(str(e))
-
 
 @main_bp.route('/api/reset', methods=['POST'])
 def reset_machine():

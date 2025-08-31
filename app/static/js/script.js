@@ -257,7 +257,7 @@ function updateMachineInfo(info) {
   }
 
   info.transitions.forEach((t) => {
-    const text = `δ(${t.current_state}, ${t.current_symbol}) = (${t.next_state}, ${t.write_symbol}, ${t.move})`;
+    const text = `δ(${t.current_state}, ${t.read_symbol}) = (${t.next_state}, ${t.write_symbol}, ${t.move})`;
     $transitionsList.append(
       $("<div>").addClass("list-group-item transition-card").text(text)
     );
