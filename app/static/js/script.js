@@ -56,21 +56,44 @@ const TMSimulator = (() => {
     }
 
     function handleRunToggle() {
-        console.log("Run button clicked");
-        if (!machineId) return;
-        const $btn = $('#runBtn');
-        if ($btn.hasClass('btn-danger')) {
-            // Stop running
-            stopRun();
-            updateStatus('Computation paused');
-            return;
-        }
+    if (!machineId) return;
+    const $btn = $('#runBtn');
 
-        // Start running
+    if (runInterval) {
+        stopRun();
+        updateStatus('Computation paused');
+    } else {
         $btn.html('<i class="fas fa-stop me-2"></i>Stop').removeClass('btn-info').addClass('btn-danger');
         startRun();
-    
     }
+}
+
+    function startRun() {
+        runInterval = setInterval(() => {
+            if (!machineId) return stopRun();
+
+            $.postJSON('/api/step', { machine_id: machineId },
+                (response) => {
+                    updateMachineState(response.state);
+                    if (response.state.halted) {
+                        stopRun();
+                        updateStatus('Computation halted');
+                    }
+                },
+                (xhr) => {
+                    stopRun();
+                    updateStatus('Error during computation: ' + xhr.responseText);
+                }
+            );
+        }, simulationSpeed);
+    }
+
+    function stopRun() {
+        clearInterval(runInterval);
+        runInterval = null;
+        $('#runBtn').html('<i class="fas fa-play-circle me-2"></i>Run').removeClass('btn-danger').addClass('btn-info');
+    }
+
 
     function handleFastRun() {
         console.log("Fast run button clicked");
