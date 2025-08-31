@@ -43,9 +43,18 @@ const TMSimulator = (() => {
     );
     }
 
-    function handleStep(){
-        console.log("reset button clicked");
+    function handleStep() {
+    if (!machineId) return;
+
+    $.postJSON('/api/step', { machine_id: machineId },
+        (response) => {
+            updateMachineState(response.state);
+            if (response.state.halted) updateStatus('Computation halted');
+        },
+        (xhr) => updateStatus('Error stepping machine: ' + xhr.responseText)
+    );
     }
+
     function handleRunToggle() {
         console.log("Run button clicked");
         if (!machineId) return;
