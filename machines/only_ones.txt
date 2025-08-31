@@ -1,0 +1,11 @@
+# Turing Machine: only ones
+states: q0,accept,reject
+input_alphabet: 1
+tape_alphabet: 1,0,□
+blank: □
+initial_state: q0
+final_states: accept,reject
+transitions:
+q0,1 -> q0,1,R
+q0,□ -> accept,□,R
+q0,0 -> reject,0,R
