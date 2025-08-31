@@ -107,13 +107,21 @@ const TMSimulator = (() => {
   }
 
   function handleFastRun() {
-    console.log("Fast run button clicked");
     if (!machineId) return;
-    $.postJSON("/api/run", { machine_id: machineId }, (response) => {
-      updateMachineState(response.state, response.history);
-      updateStatus("Computation completed");
-      stopRun();
-    });
+
+    $.postJSON(
+      "/api/run",
+      { machine_id: machineId, max_steps: 1000 },
+      (response) => {
+        updateMachineState(response.state);
+        updateStatus(
+          response.state.halted
+            ? "Computation completed"
+            : "Computation stopped"
+        );
+      },
+      (xhr) => updateStatus("Error running machine: " + xhr.responseText)
+    );
   }
 
   function loadMachines() {
