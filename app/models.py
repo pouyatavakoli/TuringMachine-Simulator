@@ -137,19 +137,22 @@ class TuringMachine:
         if self.state.halted:
             return False
         
-        # Record snapshot before transition
-        self.record_history()
-
+        # Find transition first
         transition = self.find_transition()
         if transition is None:
             self.state.halted = True
+            # Record the halted state
+            self.record_history()
             return False
 
         # Apply transition
         self.write_to_tape(transition.write_symbol)
         self.move_head(transition.move)
         self.state.current_state = transition.next_state
-        self.state.steps += 1
+        self.state.steps += 1  # Step count increases
+
+        # Record history after the transition
+        self.record_history()
 
         # Check if reached final state
         if self.state.current_state in self.definition.final_states:
