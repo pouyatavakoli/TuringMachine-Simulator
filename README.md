@@ -224,7 +224,3 @@ Licensed under the **MIT License**. See [LICENSE](LICENSE).
 ---
 
 ⭐ If you like this project, **give it a star!**
-
----
-
-Do you want me to also add **screenshots / GIFs of the simulator in action** (tape moving, step execution, etc.) to make the README more visual?
