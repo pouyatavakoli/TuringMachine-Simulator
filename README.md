@@ -203,6 +203,7 @@ q1,□ -> halt,1,L
 * `POST /api/reset` → Reset to initial state
 * `POST /api/step` → Execute one step
 * `POST /api/run` → Execute multiple steps
+* `POST /api/machines/create` - Handles machine creation requests
 
 ---
 
