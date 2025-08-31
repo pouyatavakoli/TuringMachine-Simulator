@@ -1,0 +1,11 @@
+# Turing Machine: EXAMPLE 9.2
+states: q0, q1
+input_alphabet: a, b
+tape_alphabet: a, b, □
+blank: □
+initial_state: q0
+final_states: q1
+transitions:
+q0,a -> q0,b,R
+q0,b -> q0,b,R
+q0,□ -> q1,□,L
