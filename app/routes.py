@@ -4,7 +4,7 @@ import os
 
 main_bp = Blueprint('routes', __name__)
 MACHINES_DIR = "machines"
-machines = {}
+machines: Dict[str, TuringMachine] = {}
 
 @main_bp.route('/')
 def index():
@@ -56,8 +56,31 @@ def initialize_machine():
 
 @main_bp.route('/api/reset', methods=['POST'])
 def reset_machine():
-    # TODO: implementation
-    return jsonify({"status": "reset"})
+    data = request.get_json(force=True)
+    machine_id = data.get("machine_id")
+    tape_str = data.get("tape", "")
+
+    if machine_id not in machines:
+        return jsonify({"error": "Machine not initialized"}), 400
+
+    try:
+        machines[machine_id].reset(list(tape_str))
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+    machine = machines[machine_id]
+    return jsonify({
+        "status": "reset",
+        "machine_id": machine_id,
+        "state": {
+            "current_state": machine.state.current_state,
+            "steps": machine.state.steps,
+            "halted": machine.state.halted,
+            "head_position": machine.state.head_position,
+            "tape": machine.get_tape_snapshot()
+        }
+    })
+
 
 @main_bp.route('/api/step', methods=['POST'])
 def step_machine():
