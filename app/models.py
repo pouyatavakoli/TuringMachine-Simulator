@@ -92,12 +92,15 @@ class TuringMachine:
 
     def record_history(self):
         """Append current machine state to history"""
+        tape_data = self.get_tape_snapshot()
         self.history.append({
             "step": self.state.steps,
             "current_state": self.state.current_state,
             "current_symbol": self.read_from_tape(),
             "head_position": self.state.head_position,
-            "tape": self.get_tape_snapshot()
+            "tape": tape_data["tape"],
+            "min_index": tape_data["min_index"],
+            "max_index": tape_data["max_index"]
         })
     
     def read_from_tape(self) -> str:
@@ -161,10 +164,14 @@ class TuringMachine:
                 break
         return self.state.halted
     
-    def get_tape_snapshot(self) -> List[str]:
-        """Get current tape as list with proper blank symbols"""
+    def get_tape_snapshot(self) -> dict:
+        """Get current tape as list with proper blank symbols and min/max indices."""
         if not self.tape:
-            return [self.definition.blank]
+            return {
+                "tape": [self.definition.blank],
+                "min_index": 0,
+                "max_index": 0
+            }
         
         min_index = min(self.tape.keys()) if self.tape else self.state.head_position
         max_index = max(self.tape.keys()) if self.tape else self.state.head_position
@@ -176,4 +183,8 @@ class TuringMachine:
         for i in range(min_index, max_index + 1):
             tape_snapshot.append(self.tape.get(i, self.definition.blank))
         
-        return tape_snapshot
+        return {
+            "tape": tape_snapshot,
+            "min_index": min_index,
+            "max_index": max_index
+        }

@@ -214,8 +214,12 @@ function updateMachineState(state, history = []) {
   }
 
   // === Update history table ===
+  updateHistoryTable(history);
+}
+
+function updateHistoryTable(history = []) {
+  const $tbody = $("#historyTable").empty();
   if (history && history.length > 0) {
-    const $tbody = $("#historyTable").empty();
     history.forEach((step) => {
       const tapeStr = step.tape ? step.tape.join(" ") : "";
       const row = `
@@ -229,6 +233,8 @@ function updateMachineState(state, history = []) {
       `;
       $tbody.append(row);
     });
+  } else {
+    $tbody.append('<tr><td colspan="5" class="text-center text-muted">No history yet</td></tr>');
   }
 }
 

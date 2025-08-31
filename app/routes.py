@@ -22,14 +22,16 @@ machines: Dict[str, TuringMachine] = {}
 # ------------------------
 def serialize_machine_state(machine: TuringMachine) -> dict:
     """Return JSON-serializable snapshot of a TuringMachine state."""
+    tape_data = machine.get_tape_snapshot()
     return {
         "current_state": machine.state.current_state,
         "steps": machine.state.steps,
         "halted": machine.state.halted,
         "head_position": machine.state.head_position,
-        "tape": machine.get_tape_snapshot(),
+        "tape": tape_data["tape"],
+        "min_index": tape_data["min_index"],
+        "max_index": tape_data["max_index"]
     }
-
 def serialize_machine_info(definition: MachineDefinition) -> dict:
     """Return JSON-serializable machine definition with consistent field names."""
     return {
