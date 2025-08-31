@@ -1,0 +1,11 @@
+# Turing Machine: Tape Eraser
+states: q0,halt
+input_alphabet: 0,1
+tape_alphabet: 0,1,□
+blank: □
+initial_state: q0
+final_states: halt
+transitions:
+q0,0 -> q0,□,R
+q0,1 -> q0,□,R
+q0,□ -> halt,□,R
