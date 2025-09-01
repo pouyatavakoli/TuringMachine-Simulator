@@ -205,6 +205,7 @@ To create and simulate a custom machine:
 
 ### Adding New Machines
 
+you can use the **[Create Feature](#designing-your-own-machine)** or you can do this manually by following these steps:
 1. Add a `.txt` file to `machines/`.
 2. Follow the input file format.
 3. The new machine will automatically appear in the app.
