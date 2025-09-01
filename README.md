@@ -34,22 +34,13 @@ demo video
 
 * [✨ Features](#-features)
 * [🚀 Quick Start](#-quick-start)
-
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
 * [📁 Project Structure](#-project-structure)
 * [🧪 Input File Format](#-input-file-format)
-
-  * [Format Specification](#format-specification)
 * [🎮 How to Use](#-how-to-use)
+  * [Using Predefined Machines](#using-predefined-machines)
+  * [Designing Your Own Machine](#designing-your-own-machine)
 * [🔧 API Endpoints](#-api-endpoints)
 * [🛠️ Development](#️-development)
-
-  * [Adding New Machines](#adding-new-machines)
-  * [Code Structure](#code-structure)
-  * [Running Tests](#running-tests)
-  * [Contributing](#contributing)
-* [📝 License](#-license)
 * [📊 Status](#-status)
 
 ---
@@ -60,6 +51,7 @@ demo video
 * **Multiple Machine Support**: Load and run different Turing machines from definition files.
 * **Computation History**: Inspect every step of execution.
 * **RESTful API**: Programmatic access to all simulator functions.
+* **Turing Machine Creator**: Lets the ueer to define their owen turing machine and see how it works inside the visualizer.
 
 ---
 
@@ -172,17 +164,30 @@ q1,□ -> halt,1,L
 
 ## 🎮 How to Use
 
-1. **Select a Machine** from the dropdown.
-2. **Set Initial Tape** (optional, depends on machine).
-3. **Initialize** the machine.
-4. **Control Execution**:
+### Using Predefined Machines
 
-   * **Step** → one transition
-   * **Run** → continuous execution
-   * **Fast** → up to 1000 steps quickly
-   * **Reset** → restart simulation
-5. **Observe** tape updates, head movement, and states in real time.
+To simulate a Turing machine from our library, follow these steps:
 
+1.  **Select a Machine:** Choose a machine from the dropdown menu.
+2.  **Configure the Input (Optional):** For machines that require it, enter your desired input string in the "Set Initial Tape" field.
+3.  **Initialize:** Click the **Initialize** button to load the machine and prepare it for execution with your chosen input.
+4.  **Control the Simulation:**
+    *   **Step:** Execute a single transition to follow the machine's logic one step at a time.
+    *   **Run:** Start continuous execution at a standard speed to observe the process.
+    *   **Fast:** Run up to 1000 steps rapidly for quicker results on long computations.
+    *   **Reset:** Halt the current simulation and return the machine to its initial state.
+5.  **Observe:** Watch the visualization update in real-time. Track the changing tape contents, the movement of the read/write head, and the current state of the machine.
+
+### Designing Your Own Machine
+
+To create and simulate a custom machine:
+
+1.  Click the **`+`** (plus) icon next to the machine selection dropdown.
+2.  You will be redirected to the **"Create Machine"** page.
+3.  Follow the instructions on that page to define your machine's states, alphabet, and transition rules.
+4.  Once your design is complete, click **Save**.
+5.  Return to the visualizer. Your new machine will now be available in the main dropdown menu.
+6.  Select it and follow the steps above to configure, run, and observe your custom creation.
 ---
 
 ## 🔧 API Endpoints
@@ -225,16 +230,10 @@ pytest tests/
 
 ---
 
-## 📝 License
-
-Licensed under the **MIT License**. See [LICENSE](LICENSE).
-
----
-
 ##  Acknowledgments
 
 * Inspired by **Alan Turing’s** pioneering work
-* Examples and exercises adapted from *Peter Linz – Formal Languages and Automata Theory (6th Edition)*  
+* Core logic adapted from *Peter Linz – Formal Languages and Automata Theory (6th Edition)*  
 * Built with [Flask](https://flask.palletsprojects.com/)
 * Icons via [Font Awesome](https://fontawesome.com/)
 
